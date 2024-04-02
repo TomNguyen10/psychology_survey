@@ -16,7 +16,6 @@ app.post("/", async (req, res) => {
 
   try {
     const googleSheetsClient = await googleSheets.initializeGoogleSheets();
-    spreadsheetId = "1n1sCGxwX5STLdbb-VyOUhYPEQGoNbFTjJLED_L-vMJY";
     const words = await getWords(googleSheetsClient, spreadsheetId);
     await addInfo(
       id,
@@ -35,6 +34,6 @@ app.post("/", async (req, res) => {
   }
 });
 
-app.listen(1337, (req, res) => {
+app.listen(process.env.PORT, (req, res) => {
   console.log("Server is running on port 1337");
 });

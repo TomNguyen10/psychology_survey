@@ -1,20 +1,46 @@
-import React, { useContext, useState } from "react";
+import React, { createContext, useContext, useState, ReactNode } from "react";
 import axios from "axios";
 
-const BASE_URL = "http://localhost:1337/api/";
+const BASE_URL = "http://localhost:1337/";
 
-const Context = React.createContext({});
+interface ContextValue {
+  words: string[];
+  getWords: () => Promise<void>;
+}
 
-export const Provider = ({ children }) => {
-  const [userForm, setUserForm] = useState([]);
-  const [resultForm, setResultForm] = useState([]);
-  const [error, setError] = useState(null);
+const GlobalContext = createContext<ContextValue | undefined>(undefined);
 
-  const addInfo = async (info) => {
-    const response = await axios
-      .post(`${BASE_URL}add-info`, info)
-      .catch((err) => {
-        setError(err.response.data.message);
-      });
+interface ProviderProps {
+  children: ReactNode;
+}
+
+export const useCustomContext = ({ children }: ProviderProps) => {
+  const [words, setWords] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  const getWords = async () => {
+    try {
+      const response = await axios.get<string[]>(`${BASE_URL}get-words`);
+      setWords(response.data);
+      return response.data;
+    } catch (error) {
+      setError(error.message);
+    }
   };
+
+  return (
+    <GlobalContext.Provider value={{ getWords }}>
+      {children}
+    </GlobalContext.Provider>
+  );
+};
+
+export const useGlobalContext = () => {
+  const context = useContext(GlobalContext);
+  if (!context) {
+    throw new Error(
+      "useGlobalContext must be used within a GlobalContextProvider"
+    );
+  }
+  return context;
 };

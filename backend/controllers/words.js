@@ -3,7 +3,7 @@ const { initializeGoogleSheets } = require("../connections/googleSheet");
 exports.getWords = async (req, res) => {
   try {
     const googleSheets = await initializeGoogleSheets();
-    const spreadsheetId = "1n1sCGxwX5STLdbb-VyOUhYPEQGoNbFTjJLED_L-vMJY";
+    const spreadsheetId = process.env.spreadsheetId;
     const words = await googleSheets.spreadsheets.values.get({
       spreadsheetId,
       range: "result!B1:1",

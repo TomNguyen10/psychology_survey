@@ -12,7 +12,7 @@ readdirSync("./routes").map((r) => app.use("/api", require(`./routes/${r}`)));
 
 const server = () => {
   app.listen(1337, () => {
-    console.log(`Server is running on port 1337`);
+    console.log(`Server is running on port ${process.env.PORT || 1337}`);
   });
 };
 

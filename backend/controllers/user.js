@@ -2,7 +2,7 @@ const { initializeGoogleSheets } = require("../connections/googleSheet");
 
 exports.addInfo = async (req, res) => {
   const googleSheets = await initializeGoogleSheets();
-  const spreadsheetId = "1n1sCGxwX5STLdbb-VyOUhYPEQGoNbFTjJLED_L-vMJY";
+  const spreadsheetId = process.env.spreadsheetId;
   const { id, age, gender, yearsOfEnglish } = req.body;
   try {
     await googleSheets.spreadsheets.values.append({
