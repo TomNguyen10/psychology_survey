@@ -1,0 +1,11 @@
+# Ignore Node.js modules in frontend/
+frontend/node_modules/
+
+# Ignore Node.js modules in backend/
+backend/node_modules/
+
+*.log
+
+.env
+
+backend/credential.json
