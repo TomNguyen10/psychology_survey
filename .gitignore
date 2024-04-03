@@ -8,4 +8,4 @@ backend/node_modules/
 
 .env
 
-backend/credential.json
+backend/credentials.json
