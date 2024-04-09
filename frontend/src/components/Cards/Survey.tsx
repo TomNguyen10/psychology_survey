@@ -19,6 +19,8 @@ const Survey: React.FC<SurveyProps> = ({ formData }) => {
   const [currentWordIndex, setCurrentWordIndex] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
   const [userInput, setUserInput] = useState<string | null>(null);
+  const [userInputAllowed, setUserInputAllowed] = useState<boolean>(true);
+  const [wordDisplayTime, setWordDisplayTime] = useState<number | null>(null);
 
   useEffect(() => {
     if (words.length === 0) {
@@ -37,9 +39,13 @@ const Survey: React.FC<SurveyProps> = ({ formData }) => {
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      if (event.key === "f" || event.key === "j") {
+      if (userInputAllowed && (event.key === "f" || event.key === "j")) {
         setUserInput(event.key);
-        console.log(`User pressed: ${event.key}`);
+        setUserInputAllowed(false);
+        const responseTime = Date.now() - wordDisplayTime!;
+        console.log(
+          `User pressed: ${event.key}, Response Time: ${responseTime}ms`
+        );
       }
     };
 
@@ -48,15 +54,17 @@ const Survey: React.FC<SurveyProps> = ({ formData }) => {
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
-  }, []);
+  }, [userInputAllowed]);
 
   useEffect(() => {
     if (currentWordIndex < words.length) {
-      console.log(words);
       const interval = setInterval(() => {
+        const wordStartTime = Date.now();
         console.log(words[currentWordIndex]);
         setCurrentWordIndex((prevIndex) => prevIndex + 1);
         setUserInput(null);
+        setUserInputAllowed(true);
+        setWordDisplayTime(wordStartTime);
       }, 1000);
 
       return () => clearInterval(interval);
