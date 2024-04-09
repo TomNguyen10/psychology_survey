@@ -27,7 +27,7 @@ exports.addResult = async (req, res) => {
 
     await googleSheets.spreadsheets.values.append({
       spreadsheetId,
-      range: "result!A3",
+      range: "result!A2",
       valueInputOption: "USER_ENTERED",
       resource: {
         values: [rowData],

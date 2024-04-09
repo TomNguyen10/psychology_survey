@@ -116,7 +116,7 @@ const UserForm: React.FC = () => {
           </form>
         </>
       ) : (
-        <NoticeOne />
+        <NoticeOne id={formData.id} />
       )}
     </div>
   );
