@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Instructions from "./Instructions";
+interface FormData {
+  id: string;
+  gender: string;
+  age: string;
+  yearsOfEnglish: string;
+}
 
-const NoticeTwo: React.FC = () => {
+interface NoticeTwoProps {
+  formData: FormData;
+}
+
+const NoticeTwo: React.FC<NoticeTwoProps> = ({ formData }) => {
   const [showInstruction, setShowInstruction] = useState(false);
 
   useEffect(() => {
@@ -22,6 +32,7 @@ const NoticeTwo: React.FC = () => {
     <>
       {!showInstruction ? (
         <>
+          <h5>User ID: {formData.id}</h5>
           <h2>Notice</h2>
           <div>Upon finish reading the instruction</div>
           <div>
@@ -39,7 +50,7 @@ const NoticeTwo: React.FC = () => {
           </div>
         </>
       ) : (
-        <Instructions />
+        <Instructions formData={formData} />
       )}
     </>
   );

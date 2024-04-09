@@ -1,8 +1,6 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import NoticeOne from "../Cards/NoticeOne";
-import axios from "axios";
 
-const BASE_URL = "http://localhost:1337/api/";
 interface FormData {
   id: string;
   gender: string;
@@ -30,15 +28,6 @@ const UserForm: React.FC = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    const addInfo = async (formData) => {
-      try {
-        const response = await axios.post(`${BASE_URL}add-info`, formData);
-        console.log(response.data);
-      } catch (error: Error) {
-        console.error(error.message);
-      }
-    };
-    addInfo(formData);
     setIsSubmitted(true);
     console.log(formData);
   };
@@ -116,7 +105,7 @@ const UserForm: React.FC = () => {
           </form>
         </>
       ) : (
-        <NoticeOne id={formData.id} />
+        <NoticeOne formData={formData} />
       )}
     </div>
   );

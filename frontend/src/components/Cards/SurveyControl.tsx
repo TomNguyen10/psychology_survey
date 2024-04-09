@@ -2,7 +2,18 @@ import React, { useState, useEffect } from "react";
 import StartScreen from "./StartScreen";
 import Survey from "./Survey";
 
-const SurveyControl: React.FC = () => {
+interface FormData {
+  id: string;
+  gender: string;
+  age: string;
+  yearsOfEnglish: string;
+}
+
+interface SurveyControlProps {
+  formData: FormData;
+}
+
+const SurveyControl: React.FC<SurveyControlProps> = ({ formData }) => {
   const [showSurvey, setShowSurvey] = useState(false);
 
   useEffect(() => {
@@ -19,7 +30,7 @@ const SurveyControl: React.FC = () => {
     };
   }, []);
 
-  return <>{!showSurvey ? <StartScreen /> : <Survey />}</>;
+  return <>{!showSurvey ? <StartScreen /> : <Survey formData={formData} />}</>;
 };
 
 export default SurveyControl;

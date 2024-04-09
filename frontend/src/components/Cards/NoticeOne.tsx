@@ -1,10 +1,21 @@
-import { useState, useEffect } from "react";
+import React from "react";
 import NoticeTwo from "./NoticeTwo";
 
-const NoticeOne: React.FC = () => {
-  const [showNoticeTwo, setShowNoticeTwo] = useState(false);
+interface FormData {
+  id: string;
+  gender: string;
+  age: string;
+  yearsOfEnglish: string;
+}
 
-  useEffect(() => {
+interface NoticeOneProps {
+  formData: FormData;
+}
+
+const NoticeOne: React.FC<NoticeOneProps> = ({ formData }) => {
+  const [showNoticeTwo, setShowNoticeTwo] = React.useState(false);
+
+  React.useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.keyCode === 32) {
         setShowNoticeTwo(true);
@@ -17,10 +28,12 @@ const NoticeOne: React.FC = () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
+
   return (
     <>
       {!showNoticeTwo ? (
         <>
+          <h5>User ID: {formData.id}</h5>
           <h2>Notice</h2>
           <div>
             Please read the instruction <u>carefully</u> before starting the
@@ -35,7 +48,7 @@ const NoticeOne: React.FC = () => {
           </div>
         </>
       ) : (
-        <NoticeTwo />
+        <NoticeTwo formData={formData} />
       )}
     </>
   );

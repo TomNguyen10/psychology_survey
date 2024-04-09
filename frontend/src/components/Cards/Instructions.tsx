@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from "react";
 import SurveyControl from "./SurveyControl";
-const Instructions: React.FC = () => {
+
+interface FormData {
+  id: string;
+  gender: string;
+  age: string;
+  yearsOfEnglish: string;
+}
+
+interface InstructionsProps {
+  formData: FormData;
+}
+
+const Instructions: React.FC<InstructionsProps> = ({ formData }) => {
   const [showSurveyControl, setShowSurveyControl] = useState(false);
 
   useEffect(() => {
@@ -38,7 +50,7 @@ const Instructions: React.FC = () => {
           </div>
         </>
       ) : (
-        <SurveyControl />
+        <SurveyControl formData={formData} />
       )}
     </>
   );
