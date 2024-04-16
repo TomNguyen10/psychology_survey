@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import StartScreen from "./StartScreen";
-import Survey from "./Survey";
+import Survey2 from "./Survey2";
 
 interface FormData {
   id: string;
@@ -30,7 +30,7 @@ const SurveyControl: React.FC<SurveyControlProps> = ({ formData }) => {
     };
   }, []);
 
-  return <>{!showSurvey ? <StartScreen /> : <Survey formData={formData} />}</>;
+  return <>{!showSurvey ? <StartScreen /> : <Survey2 formData={formData} />}</>;
 };
 
 export default SurveyControl;

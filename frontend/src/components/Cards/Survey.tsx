@@ -21,7 +21,9 @@ const Survey: React.FC<SurveyProps> = ({ formData }) => {
   const [userInput, setUserInput] = useState<string | null>(null);
   const [userInputAllowed, setUserInputAllowed] = useState<boolean>(true);
   const [wordDisplayTime, setWordDisplayTime] = useState<number | null>(null);
-  const [responseTimes, setResponseTimes] = useState<number[]>([]);
+  const [responseTimes, setResponseTimes] = useState<{
+    [key: string]: number[];
+  }>({});
 
   useEffect(() => {
     if (words.length === 0) {
@@ -45,13 +47,15 @@ const Survey: React.FC<SurveyProps> = ({ formData }) => {
         setUserInputAllowed(false);
         const responseTime = Date.now() - (wordDisplayTime || 0);
         setResponseTimes((prevState) => {
-          const newResponseTimes = [
+          const word = words[currentWordIndex];
+          const newResponseTimes = {
             ...prevState,
-            { wordIndex: currentWordIndex, responseTime },
-          ];
+            [word]: [...(prevState[word] || []), responseTime],
+          };
           console.log(newResponseTimes);
           return newResponseTimes;
         });
+
         console.log(
           `User pressed: ${event.key}, Response Time: ${responseTime / 1000}s`
         );
