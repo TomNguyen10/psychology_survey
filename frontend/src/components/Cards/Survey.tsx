@@ -21,6 +21,9 @@ const Survey: React.FC<SurveyProps> = ({ formData }) => {
   const [userInput, setUserInput] = useState<string | null>(null);
   const [userInputAllowed, setUserInputAllowed] = useState<boolean>(true);
   const [wordDisplayTime, setWordDisplayTime] = useState<number | null>(null);
+  const [responseTimes, setResponseTimes] = useState<{
+    [word: string]: number;
+  }>({});
 
   useEffect(() => {
     if (words.length === 0) {
@@ -42,7 +45,12 @@ const Survey: React.FC<SurveyProps> = ({ formData }) => {
       if (userInputAllowed && (event.key === "f" || event.key === "j")) {
         setUserInput(event.key);
         setUserInputAllowed(false);
-        const responseTime = Date.now() - wordDisplayTime!;
+        const responseTime = Date.now() - (wordDisplayTime || 0);
+        const word = words[currentWordIndex];
+        setResponseTimes((prevState) => ({
+          ...prevState,
+          [word]: responseTime,
+        }));
         console.log(
           `User pressed: ${event.key}, Response Time: ${responseTime}ms`
         );
@@ -67,7 +75,10 @@ const Survey: React.FC<SurveyProps> = ({ formData }) => {
         setWordDisplayTime(wordStartTime);
       }, 1000);
 
-      return () => clearInterval(interval);
+      return () => {
+        console.log(responseTimes);
+        clearInterval(interval);
+      };
     }
   }, [currentWordIndex, words]);
 
@@ -82,7 +93,6 @@ const Survey: React.FC<SurveyProps> = ({ formData }) => {
       <h5>ID: {formData.id}</h5>
       <h2>Word Display Game</h2>
       <div style={{ fontSize: "24px", marginTop: "20px" }}>{currentWord}</div>
-      <div>User Input: {userInput}</div>
     </div>
   );
 };
